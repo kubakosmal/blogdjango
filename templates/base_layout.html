@@ -1,0 +1,33 @@
+{% load static from static %}
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Blog</title>
+        <link rel="stylesheet" href="{% static 'styles.css' %}">
+    </head>
+    <body>
+        <header class="wrapper">
+            <h1><a href="{% url 'home' %}"><img src="{% static 'zydek.png' %}" alt="djangonautic" /></a></h1>
+            <nav>
+                <ul>
+                    {% if user.is_authenticated %}
+                    <li>
+                        <form class="logout-link" action="{% url 'accounts:logout' %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit">Wyloguj się</button>
+                        </form>
+                    </li>
+                    <li><a href="{% url 'articles:create' %}" class="highlight">Dodaj wpis</a></li>
+                    {% else %}
+                    <li><a href="{% url 'accounts:login' %}">Zaloguj się</a></li>
+                    <li><a href="{% url 'accounts:signup' %}">Zarejestruj się</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </header>
+        <div class="wrapper">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </body>
+</html>
